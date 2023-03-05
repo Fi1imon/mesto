@@ -1,9 +1,10 @@
 .elements {
+  padding-top: 50px;
   width: 100%;
   display: grid;
   grid-column-gap: 17px;
   grid-row-gap: 20px;
-  grid-template-columns: repeat(3, 292px);
+  grid-template-columns: repeat(3, 282px);
   grid-template-rows: repeat(2, 361px);
   grid-auto-flow: row;
 }

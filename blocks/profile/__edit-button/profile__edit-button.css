@@ -4,4 +4,10 @@
   align-self: center;
   width: 24px;
   height: 24px;
+  cursor: pointer;
+}
+
+.profile__edit-button:hover {
+  opacity: .6;
+  transition: opacity .3s;
 }
