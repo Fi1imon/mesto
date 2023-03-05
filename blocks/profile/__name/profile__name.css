@@ -1,0 +1,12 @@
+.profile__name {
+  margin: 0;
+  grid-column: 1/2;
+  grid-row: 1/2;
+  align-self: flex-end;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
