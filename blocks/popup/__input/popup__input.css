@@ -13,3 +13,9 @@
   outline: none;
   resize: none;
 }
+
+@media screen and (max-width: 629px){
+  .popup__input {
+    min-width: 238px;
+  }
+}
