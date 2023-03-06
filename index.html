@@ -17,9 +17,9 @@
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__about">Исследователь океана</p>
-          <img class="profile__edit-button" src="./images/edit_button.svg" alt="Редактирование профиля">
+          <button class="profile__edit-button"></button>
         </div>
-        <img class="profile__add-button" src="./images/add_button.svg" alt="Добавление фото">
+        <button class="profile__add-button"></button>
       </section>
       <section class="elements">
 <!--        1st element-->
@@ -27,7 +27,10 @@
           <img class="element__photo" src="./images/branch.png" alt="Ветка дерева с цветами">
           <div class="element__info">
             <p class="element__name">Цветочки на ветке</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
 <!--        2nd element-->
@@ -35,7 +38,10 @@
           <img class="element__photo" src="./images/porsche.png" alt="Порш 911">
           <div class="element__info">
             <p class="element__name">Машина</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
 <!--        3rd element-->
@@ -43,7 +49,10 @@
           <img class="element__photo" src="./images/kiss.png" alt="Поцелуй на закате">
           <div class="element__info">
             <p class="element__name">Поцелуй</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
 <!--        4th element-->
@@ -51,7 +60,10 @@
           <img class="element__photo" src="./images/white_bear.png" alt="Белый медведь">
           <div class="element__info">
             <p class="element__name">Белый мишка</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
 <!--        5th element-->
@@ -59,7 +71,10 @@
           <img class="element__photo" src="./images/mountain.png" alt="Вершины гор в облаках">
           <div class="element__info">
             <p class="element__name">Горы</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
 <!--        6th element-->
@@ -67,7 +82,10 @@
           <img class="element__photo" src="./images/street.png" alt="Ночная улица Японии">
           <div class="element__info">
             <p class="element__name">Яркая улица</p>
-            <img src="./images/element_like.svg" alt="Лайк">
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
           </div>
         </div>
       </section>
@@ -75,6 +93,17 @@
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
+    <section class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button"></button>
+        <form class="popup__form">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <textarea class="popup__input popup__input-name" name="name"></textarea>
+          <textarea class="popup__input popup__input-about" name="about"></textarea>
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </section>
   </div>
 <!--  <script src="./scripts/index.js"></script>-->
 </body>
