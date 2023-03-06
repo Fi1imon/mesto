@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./pages/index.css">
+  <title>Mesto</title>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+    </header>
+    <main class="main">
+      <section class="profile">
+        <img class="profile__avatar" src="./images/avatar.png" alt="Аватар дед">
+        <div class="profile__info">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <p class="profile__about">Исследователь океана</p>
+          <button class="profile__edit-button"></button>
+        </div>
+        <button class="profile__add-button"></button>
+      </section>
+      <section class="elements">
+<!--        1st element-->
+        <div class="element">
+          <img class="element__photo" src="./images/branch.png" alt="Ветка дерева с цветами">
+          <div class="element__info">
+            <p class="element__name">Цветочки на ветке</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+<!--        2nd element-->
+        <div class="element">
+          <img class="element__photo" src="./images/porsche.png" alt="Порш 911">
+          <div class="element__info">
+            <p class="element__name">Машина</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+<!--        3rd element-->
+        <div class="element">
+          <img class="element__photo" src="./images/kiss.png" alt="Поцелуй на закате">
+          <div class="element__info">
+            <p class="element__name">Поцелуй</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+<!--        4th element-->
+        <div class="element">
+          <img class="element__photo" src="./images/white_bear.png" alt="Белый медведь">
+          <div class="element__info">
+            <p class="element__name">Белый мишка</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+<!--        5th element-->
+        <div class="element">
+          <img class="element__photo" src="./images/mountain.png" alt="Вершины гор в облаках">
+          <div class="element__info">
+            <p class="element__name">Горы</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+<!--        6th element-->
+        <div class="element">
+          <img class="element__photo" src="./images/street.png" alt="Ночная улица Японии">
+          <div class="element__info">
+            <p class="element__name">Яркая улица</p>
+            <label class="element__checkbox-container">
+              <input class="element__checkbox" type="checkbox">
+              <span class="element__checkbox-image"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright">© 2020 Mesto Russia</p>
+    </footer>
+    <section class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button"></button>
+        <form class="popup__form">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <textarea class="popup__input popup__input-name" name="name"></textarea>
+          <textarea class="popup__input popup__input-about" name="about"></textarea>
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </section>
+  </div>
+  <script src="./scripts/index.js"></script>
+</body>
+</html>
