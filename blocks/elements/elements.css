@@ -23,11 +23,8 @@
 
 @media screen and (max-width: 628px){
   .elements {
-    width: max-content;
-    max-width: 100%;
-    grid-column-gap: 19px;
+    padding-top: 36px;
     grid-template-columns: 282px;
     grid-template-rows: repeat(6, minmax(min-content, 361px));
-    justify-content: center;
   }
 }

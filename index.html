@@ -16,76 +16,58 @@
         <img class="profile__avatar" src="./images/avatar.png" alt="Аватар дед">
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <p class="profile__about">Исследователь океана</p>
-          <button class="profile__edit-button"></button>
+          <p class="profile__job">Исследователь океана</p>
+          <button class="profile__edit-button" type="button"></button>
         </div>
-        <button class="profile__add-button"></button>
+        <button class="profile__add-button" type="button"></button>
       </section>
       <section class="elements">
 <!--        1st element-->
         <div class="element">
           <img class="element__photo" src="./images/branch.png" alt="Ветка дерева с цветами">
           <div class="element__info">
-            <p class="element__name">Цветочки на ветке</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Цветочки на ветке</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
 <!--        2nd element-->
         <div class="element">
           <img class="element__photo" src="./images/porsche.png" alt="Порш 911">
           <div class="element__info">
-            <p class="element__name">Машина</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Машина</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
 <!--        3rd element-->
         <div class="element">
           <img class="element__photo" src="./images/kiss.png" alt="Поцелуй на закате">
           <div class="element__info">
-            <p class="element__name">Поцелуй</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Поцелуй</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
 <!--        4th element-->
         <div class="element">
           <img class="element__photo" src="./images/white_bear.png" alt="Белый медведь">
           <div class="element__info">
-            <p class="element__name">Белый мишка</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Белый мишка</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
 <!--        5th element-->
         <div class="element">
           <img class="element__photo" src="./images/mountain.png" alt="Вершины гор в облаках">
           <div class="element__info">
-            <p class="element__name">Горы</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Горы</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
 <!--        6th element-->
         <div class="element">
           <img class="element__photo" src="./images/street.png" alt="Ночная улица Японии">
           <div class="element__info">
-            <p class="element__name">Яркая улица</p>
-            <label class="element__checkbox-container">
-              <input class="element__checkbox" type="checkbox">
-              <span class="element__checkbox-image"></span>
-            </label>
+            <h3 class="element__name">Яркая улица</h3>
+            <button class="element__like" type="button"></button>
           </div>
         </div>
       </section>
@@ -95,13 +77,15 @@
     </footer>
     <section class="popup">
       <div class="popup__container">
-        <button class="popup__close-button"></button>
-        <form class="popup__form">
+        <button class="popup__close-button" type="button"></button>
+        <div class="popup__form-container">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <textarea class="popup__input popup__input-name" name="name" required></textarea>
-          <textarea class="popup__input popup__input-about" name="about" required></textarea>
-          <button class="popup__submit-button" type="submit">Сохранить</button>
-        </form>
+          <form class="popup__form" name="profileEdit">
+            <input type="text" class="popup__input popup__input_type_name" name="name" required>
+            <input type="text" class="popup__input popup__input_type_job" name="job" required>
+            <button class="popup__submit-button" type="submit">Сохранить</button>
+          </form>
+        </div>
       </div>
     </section>
   </div>
