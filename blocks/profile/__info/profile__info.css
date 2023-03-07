@@ -3,7 +3,7 @@
   flex-basis: 100%;
   display: grid;
   grid-template-columns:  min-content 18px 24px;
-  grid-template-rows: 39px 16px 18px;
+  grid-template-rows: 48px 7px 22px;
   max-width: 550px;
 }
 
@@ -15,7 +15,8 @@
 
 @media screen and (max-width: 704px){
   .profile__info {
-    grid-template-columns: 1fr 10px 18px;
+    max-width: 282px;
+    grid-template-columns: 235px 10px 37px;
     grid-template-rows: 33px 7px 17px;
     margin: 26px 0 0;
   }
