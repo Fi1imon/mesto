@@ -15,5 +15,7 @@
   .popup__form-container {
     min-width: 282px;
     min-height: 322px;
+    grid-column: 1/3;
+    grid-row: 3/4;
   }
 }
