@@ -1,5 +1,5 @@
 .popup__container {
-  margin: 155px auto 0;
+  margin: auto;
   max-width: 510px;
   max-height: 410px;
   display: grid;
@@ -10,10 +10,12 @@
 
 @media screen and (max-width: 629px){
   .popup__container {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    grid-template-columns:262px 20px;
+    grid-template-rows: 20px 16px 322px 16px 20px;
+    grid-gap: 0;
     max-width: 282px;
-    max-height: 358px;
-    margin-top: 87px;
+    max-height: 394px;
   }
 }
