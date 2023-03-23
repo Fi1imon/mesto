@@ -8,11 +8,11 @@
   min-width: 150px;
   min-height: 50px;
   cursor: pointer;
+  transition: opacity .3s linear;
 }
 
 .profile__add-button:hover {
   opacity: .6;
-  transition: opacity .3s;
 }
 
 @media screen and (max-width: 704px){

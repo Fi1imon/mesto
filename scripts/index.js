@@ -67,7 +67,7 @@ const initialCards = [
 let elementTemplate = document.querySelector('#element').content;
 let elementsElement = document.querySelector('.elements');
 
-//Загрузка карточек по умолчанию
+//Выгрузка карточек при загрузке страницы
 function loadAllElements() {
   for ( let card of initialCards) {
     let elementElement = elementTemplate.querySelector('.element').cloneNode(true);
@@ -75,19 +75,30 @@ function loadAllElements() {
     elementElement.querySelector('.element__name').textContent = card.name;
     elementElement.querySelector('.element__photo').src = card.link;
 
+    //Функциональность лайка
     const likeButtonElement = elementElement.querySelector('.element__like');
-    likeButtonElement.addEventListener('click', (evt) => {
+    likeButtonElement.addEventListener('click', evt => {
       const like = evt.target;
 
-      like.classList.toggle('element__like_active')
+      like.classList.toggle('element__like_active');
     });
+
+    //Функциональность удаления
+    const deleteButtonElement = elementElement.querySelector('.element__delete');
+    deleteButtonElement.addEventListener('click', () => {
+      let cardIndex = initialCards.indexOf(card);
+      initialCards.splice(cardIndex, 1);
+
+      upload();
+      }
+    );
 
     elementsElement.append(elementElement);
   };
 };
 loadAllElements();
 
-//Обновление карточек из массива
+//Загрузка карточек из массива
 function upload() {
   const elements = elementsElement.querySelectorAll('.element');
 
@@ -107,10 +118,6 @@ function addNewCard() {
   initialCards.unshift(NewItem);
   upload();
 };
-
-//Удаление карточки фото
-
-
 
 //ПОПАП КАРТОЧКИ ФОТО
 let popupNewItemElement = document.querySelector('.popup-item');
@@ -134,7 +141,7 @@ function closeNewItemPopup() {
   linkNewItemPopup.value = '';
 };
 
-//
+//Подтверждение добавления карточки
 newItemFormElement.addEventListener('submit', evt => {
   evt.preventDefault();
   addNewCard(nameNewItemPopup.value, linkNewItemPopup.value);

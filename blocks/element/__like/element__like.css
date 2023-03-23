@@ -7,9 +7,10 @@
   background-image: url('../../../images/element_like.svg');
   background-size: contain;
   border: none;
+  transition: opacity .3s linear;
 }
 
 .element__like:hover {
   opacity: .5;
-  transition: opacity .3s;
+  cursor: pointer;
 }

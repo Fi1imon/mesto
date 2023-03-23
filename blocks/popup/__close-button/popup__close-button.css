@@ -8,11 +8,11 @@
   grid-column: 3/4;
   grid-row: 1/2;
   cursor: pointer;
+  transition: opacity .3s linear;
 }
 
 .popup__close-button:hover {
   opacity: .6;
-  transition: opacity .3s;
 }
 
 @media screen and (max-width: 629px){
