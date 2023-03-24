@@ -3,16 +3,14 @@
   max-width: 510px;
   max-height: 410px;
   display: grid;
-  grid-template-columns:32px 430px 32px;
-  grid-template-rows: 32px 330px 32px;
-  grid-gap: 8px;
+  grid-template-columns:32px 8px 430px 8px 32px;
+  grid-template-rows: 32px 8px 330px 8px 32px;
 }
 
 @media screen and (max-width: 629px){
   .popup__container {
     grid-template-columns:262px 20px;
     grid-template-rows: 20px 16px 322px 16px 20px;
-    grid-gap: 0;
     max-width: 282px;
     max-height: 394px;
   }
