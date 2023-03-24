@@ -5,6 +5,9 @@
   height: 100%;
   top: 0;
   left: 0;
-  display: none;
+  display: flex;
   flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility .4s, opacity .4s linear;
 }

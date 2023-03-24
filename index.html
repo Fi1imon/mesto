@@ -22,70 +22,63 @@
         <button class="profile__add-button image-button" type="button"></button>
       </section>
       <section class="elements">
-<!--        1st element-->
-        <div class="element">
-          <img class="element__photo" src="./images/branch.png" alt="Ветка дерева с цветами">
-          <div class="element__info">
-            <h3 class="element__name">Цветочки на ветке</h3>
-            <button class="element__like  image-button" type="button"></button>
+        <template id="element">
+          <div class="element">
+            <button class="element__delete image-button"></button>
+            <img class="element__photo" src="" alt="">
+            <div class="element__info">
+              <h3 class="element__name"></h3>
+              <button class="element__like  image-button" type="button"></button>
+            </div>
           </div>
-        </div>
-<!--        2nd element-->
-        <div class="element">
-          <img class="element__photo" src="./images/porsche.png" alt="Порш 911">
-          <div class="element__info">
-            <h3 class="element__name">Машина</h3>
-            <button class="element__like  image-button" type="button"></button>
-          </div>
-        </div>
-<!--        3rd element-->
-        <div class="element">
-          <img class="element__photo" src="./images/kiss.png" alt="Поцелуй на закате">
-          <div class="element__info">
-            <h3 class="element__name">Поцелуй</h3>
-            <button class="element__like  image-button" type="button"></button>
-          </div>
-        </div>
-<!--        4th element-->
-        <div class="element">
-          <img class="element__photo" src="./images/white_bear.png" alt="Белый медведь">
-          <div class="element__info">
-            <h3 class="element__name">Белый мишка</h3>
-            <button class="element__like  image-button" type="button"></button>
-          </div>
-        </div>
-<!--        5th element-->
-        <div class="element">
-          <img class="element__photo" src="./images/mountain.png" alt="Вершины гор в облаках">
-          <div class="element__info">
-            <h3 class="element__name">Горы</h3>
-            <button class="element__like  image-button" type="button"></button>
-          </div>
-        </div>
-<!--        6th element-->
-        <div class="element">
-          <img class="element__photo" src="./images/street.png" alt="Ночная улица Японии">
-          <div class="element__info">
-            <h3 class="element__name">Яркая улица</h3>
-            <button class="element__like  image-button" type="button"></button>
-          </div>
-        </div>
+        </template>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2023 Mesto Russia</p>
     </footer>
-    <section class="popup">
+<!--    Попап информации профиля-->
+    <section class="popup popup-profile">
       <div class="popup__container">
         <button class="popup__close-button image-button" type="button"></button>
         <div class="popup__form-container">
           <h2 class="popup__title">Редактировать профиль</h2>
           <form class="popup__form" name="profileEdit">
-            <input type="text" class="popup__input popup__input_type_name" name="name" required>
-            <input type="text" class="popup__input popup__input_type_job" name="job" required>
+            <input type="text" class="popup__input popup__input_position_top" name="name" required>
+            <input type="text" class="popup__input popup__input_position_bottom" name="job" required>
             <button class="popup__submit-button" type="submit">Сохранить</button>
           </form>
         </div>
+      </div>
+    </section>
+<!--    Попап добавления карточки-->
+    <section class="popup popup-item">
+      <div class="popup__container">
+        <button class="popup__close-button image-button" type="button"></button>
+        <div class="popup__form-container">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <form class="popup__form" name="profileEdit">
+            <input type="text"
+                   class="popup__input popup__input_position_top"
+                   name="name"
+                   placeholder="Название"
+                   required>
+            <input type="url"
+                   class="popup__input popup__input_position_bottom"
+                   name="url"
+                   placeholder="Ссылка на картинку"
+                   required>
+            <button class="popup__submit-button" type="submit">Сохранить</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!--    Попап просмотра фото-->
+    <section class="popup popup-image">
+      <div class="popup-image__container">
+        <button class="popup-image__close-button image-button" type="button"></button>
+        <img class="popup-image__photo" src="" alt="">
+        <p class="popup-image__name"></p>
       </div>
     </section>
   </div>

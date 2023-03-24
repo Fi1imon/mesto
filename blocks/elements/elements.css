@@ -16,7 +16,7 @@
     max-width: 100%;
     grid-column-gap: 19px;
     grid-template-columns: repeat(2, minmax(min-content, 1fr));
-    grid-template-rows: repeat(3, minmax(min-content, 361px));
+    grid-template-rows: minmax(min-content, 361px);
     justify-content: center;
   }
 }
@@ -25,6 +25,6 @@
   .elements {
     padding-top: 36px;
     grid-template-columns: 282px;
-    grid-template-rows: repeat(6, minmax(min-content, 361px));
+    grid-template-rows: minmax(min-content, 361px);
   }
 }
