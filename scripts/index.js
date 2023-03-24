@@ -67,21 +67,28 @@ const initialCards = [
 let elementTemplate = document.querySelector('#element').content;
 let elementsElement = document.querySelector('.elements');
 
-//Выгрузка карточек при загрузке страницы
-function loadAllElements() {
-  for ( let card of initialCards) {
-    addCard(card);
-  };
-};
-loadAllElements();
+let imagePopupElement = document.querySelector('.popup-image');
+let imageNameElement = imagePopupElement.querySelector('.popup-image__name');
+let imagePhotoElement = imagePopupElement.querySelector('.popup-image__photo');
+const closePhotoButtonElement = imagePopupElement.querySelector('.popup-image__close-button');
 
-
-
+//Функция добавления карточки
 function addCard(item) {
   let elementElement = elementTemplate.querySelector('.element').cloneNode(true);
 
   elementElement.querySelector('.element__name').textContent = item.name;
   elementElement.querySelector('.element__photo').src = item.link;
+  elementElement.querySelector('.element__photo').alt = item.name;
+
+  //Функциональность открытия попапа фото
+  const photoElement = elementElement.querySelector('.element__photo');
+  photoElement.addEventListener('click', () => {
+    imagePopupElement.classList.add('popup_opened')
+
+    imageNameElement.textContent = item.name;
+    imagePhotoElement.src = item.link;
+    imagePhotoElement.alt = item.name;
+  });
 
   //Функциональность лайка
   const likeButtonElement = elementElement.querySelector('.element__like');
@@ -102,7 +109,21 @@ function addCard(item) {
   );
 
   elementsElement.prepend(elementElement);
-}
+};
+
+//Выгрузка карточек при загрузке страницы
+function loadAllElements() {
+  for ( let card of initialCards) {
+    addCard(card);
+  };
+};
+loadAllElements();
+
+//Закрытие попапа просмотра фото
+closePhotoButtonElement.addEventListener('click',() => {
+  imagePopupElement.classList.remove('popup_opened');
+
+});
 
 //Добавление карточки
 function addNewCard() {
@@ -144,3 +165,5 @@ newItemFormElement.addEventListener('submit', evt => {
 
   closeNewItemPopup();
 });
+
+// Открытие просмотра фото из карточки
