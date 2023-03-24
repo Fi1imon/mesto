@@ -39,28 +39,28 @@ function handleFormSubmit (evt) {
 //КАРТОЧКИ ФОТО
 const initialCards = [
   {
-    name: 'Цветочки на ветке',
-    link: './images/branch.png'
-  },
-  {
-    name: 'Машина',
-    link: './images/porsche.png'
-  },
-  {
-    name: 'Поцелуй',
-    link: './images/kiss.png'
-  },
-  {
-    name: 'Белый мишка',
-    link: './images/white_bear.png'
+    name: 'Яркая улица',
+    link: './images/street.png'
   },
   {
     name: 'Горы',
     link: './images/mountain.png'
   },
   {
-    name: 'Яркая улица',
-    link: './images/street.png'
+    name: 'Белый мишка',
+    link: './images/white_bear.png'
+  },
+  {
+    name: 'Поцелуй',
+    link: './images/kiss.png'
+  },
+  {
+    name: 'Машина',
+    link: './images/porsche.png'
+  },
+  {
+    name: 'Цветочки на ветке',
+    link: './images/branch.png'
   }
 ];
 
@@ -70,53 +70,49 @@ let elementsElement = document.querySelector('.elements');
 //Выгрузка карточек при загрузке страницы
 function loadAllElements() {
   for ( let card of initialCards) {
-    let elementElement = elementTemplate.querySelector('.element').cloneNode(true);
-
-    elementElement.querySelector('.element__name').textContent = card.name;
-    elementElement.querySelector('.element__photo').src = card.link;
-
-    //Функциональность лайка
-    const likeButtonElement = elementElement.querySelector('.element__like');
-    likeButtonElement.addEventListener('click', evt => {
-      const like = evt.target;
-
-      like.classList.toggle('element__like_active');
-    });
-
-    //Функциональность удаления
-    const deleteButtonElement = elementElement.querySelector('.element__delete');
-    deleteButtonElement.addEventListener('click', () => {
-      let cardIndex = initialCards.indexOf(card);
-      initialCards.splice(cardIndex, 1);
-
-      upload();
-      }
-    );
-
-    elementsElement.append(elementElement);
+    addCard(card);
   };
 };
 loadAllElements();
 
-//Загрузка карточек из массива
-function upload() {
-  const elements = elementsElement.querySelectorAll('.element');
 
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].remove();
-  };
 
-  loadAllElements()
-};
+function addCard(item) {
+  let elementElement = elementTemplate.querySelector('.element').cloneNode(true);
 
-//Добавление карточки фото
+  elementElement.querySelector('.element__name').textContent = item.name;
+  elementElement.querySelector('.element__photo').src = item.link;
+
+  //Функциональность лайка
+  const likeButtonElement = elementElement.querySelector('.element__like');
+  likeButtonElement.addEventListener('click', evt => {
+    const like = evt.target;
+
+    like.classList.toggle('element__like_active');
+  });
+
+  //Функциональность удаления
+  const deleteButtonElement = elementElement.querySelector('.element__delete');
+  deleteButtonElement.addEventListener('click', () => {
+      let cardIndex = initialCards.indexOf(item);
+      initialCards.splice(cardIndex, 1);
+
+      elementElement.remove()
+    }
+  );
+
+  elementsElement.prepend(elementElement);
+}
+
+//Добавление карточки
 function addNewCard() {
   const NewItem = {
     name: nameNewItemPopup.value,
     link: linkNewItemPopup.value
   };
-  initialCards.unshift(NewItem);
-  upload();
+  initialCards.push(NewItem);
+
+  addCard(NewItem);
 };
 
 //ПОПАП КАРТОЧКИ ФОТО
