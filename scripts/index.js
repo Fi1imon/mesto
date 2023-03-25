@@ -137,7 +137,6 @@ function addNewCard() {
     name: nameNewItemPopup.value,
     link: linkNewItemPopup.value
   };
-  initialCards.push(newItem);
 
   addCard(newItem);
 };
@@ -152,7 +151,8 @@ const nameNewItemPopup = newItemFormElement.querySelector('.popup__input_positio
 const linkNewItemPopup = newItemFormElement.querySelector('.popup__input_position_bottom');
 
 //Открытие попапа добавления карточки
-addButtonElement.addEventListener('click', () => {popupNewItemElement.classList.add('popup_opened')
+addButtonElement.addEventListener('click', () => {
+  openPopup(popupNewItemElement);
 });
 
 //Подтверждение добавления карточки
@@ -164,5 +164,3 @@ newItemFormElement.addEventListener('submit', evt => {
 
   evt.target.reset();
 });
-
-// Открытие просмотра фото из карточки
