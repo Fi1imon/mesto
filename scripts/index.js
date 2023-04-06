@@ -10,7 +10,6 @@ const profileFormElement = profilePopupElement.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_position_top');
 const jobInput = profileFormElement.querySelector('.popup__input_position_bottom');
 
-const closeButtons = document.querySelectorAll('.popup__close-button');
 const popupList = document.querySelectorAll('.popup');
 
 //Заполнение полей попапа профиля
@@ -20,18 +19,9 @@ function fillProfilePopup() {
 };
 fillProfilePopup();
 
-//Функциональность закрытия по клику на оверлей
-function closeOnOverlayClick(evt) {
-  popupList.forEach((popup) => {
-    if(evt.target === popup) {
-      closePopup(popup)
-    };
-  });
-};
-
 //Функциональность закрытия на Esc
 function closeOnEscape(evt) {
-  popupList.forEach((popup) => {
+  popupList.forEach(popup => {
     if(evt.key === 'Escape') {
       closePopup(popup)
     };
@@ -41,21 +31,35 @@ function closeOnEscape(evt) {
 //Функции закрытия и открытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  popup.addEventListener('mousedown', closeOnOverlayClick)
   window.addEventListener('keydown', closeOnEscape)
 };
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   window.removeEventListener('keydown', closeOnEscape)
-  popup.removeEventListener('mousedown', closeOnOverlayClick)
 };
 
-//Обработчик закрытия для всех попапов
-closeButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click',() => {return closePopup(popup)});
+//Обработчик закрытия для всех попапов на кнопку и оверлей
+function closeOnOverlay(evt, popup) {
+  if(evt.target.classList.contains('popup_opened')) {
+    closePopup(popup)
+  };
+};
+
+function closeOnButton(evt, popup) {
+  if(evt.target.classList.contains('popup__close-button')) {
+    closePopup(popup)
+  };
+};
+
+popupList.forEach(popup => {
+  popup.addEventListener('mousedown', evt => {
+    closeOnOverlay(evt, popup);
+    closeOnButton(evt, popup);
+  });
 });
+
+
 
 //Обработчики закрытия и подтверждения формы профиля
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
@@ -119,7 +123,7 @@ function createCard(item) {
 }
 
 //Делегирование взаимодействий с карточками
-elementsSection.addEventListener('click', (evt) => {
+elementsSection.addEventListener('click', evt => {
   if(evt.target.classList.contains('element__like')) {
     evt.target.classList.toggle('element__like_active');
   };
