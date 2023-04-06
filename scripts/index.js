@@ -25,7 +25,6 @@ function closeOnOverlayClick(evt) {
   popupList.forEach((popup) => {
     if(evt.target === popup) {
       closePopup(popup)
-      popup.removeEventListener('mousedown', closeOnOverlayClick)
     };
   });
 };
@@ -35,7 +34,6 @@ function closeOnEscape(evt) {
   popupList.forEach((popup) => {
     if(evt.key === 'Escape') {
       closePopup(popup)
-      window.removeEventListener('keydown', closeOnEscape)
     };
   });
 };
@@ -49,6 +47,8 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  window.removeEventListener('keydown', closeOnEscape)
+  popup.removeEventListener('mousedown', closeOnOverlayClick)
 };
 
 //Обработчик закрытия для всех попапов
