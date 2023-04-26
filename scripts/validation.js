@@ -1,76 +1,69 @@
-validationElementsClasses ={
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  inputErrorClass: '.popup__input_type_error',
-  errorClass: '.popup__input-error',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_disabled'
-};
+export class FormValidation {
+  constructor(validationClasses, formElement) {
+    this._validationClasses = validationClasses;
+    this._formElement = formElement;
+  }
 
-//Отображение ERROR сообщения
-const showErrorMessage = (formElement, inputElement, validationMessage, classes) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
-  errorElement.textContent = validationMessage;
-  inputElement.classList.add(classes.inputErrorClass);
-};
+  //Отображение ERROR сообщения
+  _showErrorMessage(inputElement, validationMessage) {
+    this._formElement.querySelector(`.${inputElement.id}-error`).textContent = validationMessage;
+    inputElement.classList.add(this._validationClasses.inputErrorClass);
+  };
 
 //Скрытие ERROR сообщения
-const hideErrorMessage = (formElement, inputElement, classes) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  _hideErrorMessage(inputElement) {
+    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
 
-  errorElement.textContent = '';
-  inputElement.classList.remove(classes.inputErrorClass);
-};
+    errorElement.textContent = '';
+    inputElement.classList.remove(this._validationClasses.inputErrorClass);
+  };
 
 //Проверка полей ввода в форме на валидность
-const hasInvalidInput = (inputList) => {
-  return inputList.some((input) => {
-    return !input.validity.valid
-  });
-};
+  _hasInvalidInput() {
+    return this._inputList.some((input) => {
+      return !input.validity.valid
+    });
+  };
 
 //Переключение активности кнопки
-const toggleButton = (inputList, buttonElement, classes) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(classes.inactiveButtonClass);
-    buttonElement.setAttribute('disabled', 'true')
-  } else {
-    buttonElement.classList.remove(classes.inactiveButtonClass);
-    buttonElement.removeAttribute('disabled')
+  _toggleButton() {
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._validationClasses.inactiveButtonClass);
+      this._buttonElement.setAttribute('disabled', 'true')
+    } else {
+      this._buttonElement.classList.remove(this._validationClasses.inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled')
+    };
   };
-};
 
 //Проверка формы на валидность
-const isValid = (formElement, inputElement, classes) => {
-  if (!inputElement.validity.valid) {
-    showErrorMessage(formElement, inputElement, inputElement.validationMessage, classes);
-  } else {
-    hideErrorMessage(formElement, inputElement, classes);
-  }
-};
+  _isValid(inputElement) {
+    if (!inputElement.validity.valid) {
+      this._showErrorMessage(inputElement, inputElement.validationMessage);
+    } else {
+      this._hideErrorMessage(inputElement);
+    }
+  };
 
 //Назначение слушателей на форму и проверка состояния кнопки
-const setEventListeners = (formElement, classes) => {
-  const inputList = Array.from(formElement.querySelectorAll(classes.inputSelector));
-  const buttonElement = formElement.querySelector(classes.submitButtonSelector);
+  _setEventListeners() {
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._validationClasses.inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._validationClasses.submitButtonSelector);
 
-  toggleButton(inputList, buttonElement, classes);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement, classes);
-      toggleButton(inputList, buttonElement, classes);
+    this._toggleButton();
+    this._inputList.forEach((inputElement) => {
+      inputElement.addEventListener('input', () => {
+        this._isValid(inputElement);
+        this._toggleButton(inputElement);
+      });
     });
-  });
-};
+  };
 
-//Создание массива филдсетов
-const enableValidation = (classes) => {
-  const formList = Array.from(document.querySelectorAll(classes.formSelector));
+  enableValidation() {
+    this._setEventListeners()
+  };
+}
 
-  formList.forEach((formElement) => {
-    setEventListeners(formElement, classes);
-    });
-};
 
-enableValidation(validationElementsClasses);
+
+
