@@ -57,11 +57,34 @@ export class FormValidation {
         this._toggleButton(inputElement);
       });
     });
+    this._formElement.addEventListener
   };
 
   enableValidation() {
     this._setEventListeners()
   };
+
+  _addDisabledButtonClass() {
+    this._buttonElement.classList.add('popup__submit-button_disabled')
+  }
+
+  _buttonReset() {
+    this._buttonElement.setAttribute('disabled', 'true');
+    this._addDisabledButtonClass()
+  }
+
+}
+
+export class NewItemFormValidation extends FormValidation {
+  constructor(validationClasses, formElement) {
+    super(validationClasses, formElement);
+  }
+  enableValidation() {
+    super._setEventListeners();
+    this._formElement.addEventListener('submit', () => {
+      this._buttonReset()
+    })
+  }
 }
 
 
