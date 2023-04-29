@@ -1,5 +1,5 @@
 import {Card} from "./Card.js";
-import {FormValidation, NewItemFormValidation} from "./Validation.js";
+import {FormValidator} from "./FormValidator.js";
 
 // ПОПАП ИНФОРМАЦИИ ПРОФИЛЯ
 const profilePopupElement = document.querySelector('.popup-profile');
@@ -172,30 +172,18 @@ const newItemFormElement = popupNewItemElement.querySelector('.popup__form');
 const nameNewItemPopup = newItemFormElement.querySelector('.popup__input_position_top');
 const linkNewItemPopup = newItemFormElement.querySelector('.popup__input_position_bottom');
 
+const newCardValidation = new FormValidator(validationElementsClasses, newItemFormElement)
+const profileEditValidation = new FormValidator(validationElementsClasses, profileFormElement)
+newCardValidation.enableValidation()
+profileEditValidation.enableValidation()
+
 newItemFormElement.addEventListener('submit', evt => {
   evt.preventDefault();
   addNewCard(nameNewItemPopup.value, linkNewItemPopup.value);
-
+  newCardValidation.buttonReset()
   closePopup(popupNewItemElement);
 
   evt.target.reset();
 });
 
-function enableValidation(formElement) {
 
-
-  if(!(formElement.getAttribute('name') === 'addPhoto')) {
-    const validation = new FormValidation(validationElementsClasses, formElement);
-    return validation.enableValidation()
-  } else {
-    const validation = new NewItemFormValidation(validationElementsClasses, formElement);
-    return validation.enableValidation()
-  }
-
-
-}
-
-const formList = Array.from(document.querySelectorAll(validationElementsClasses.formSelector));
-formList.forEach((formElement) => {
-  enableValidation(formElement)
-});
