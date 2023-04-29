@@ -1,4 +1,4 @@
-export class FormValidation {
+export class FormValidator {
   constructor(validationClasses, formElement) {
     this._validationClasses = validationClasses;
     this._formElement = formElement;
@@ -28,8 +28,7 @@ export class FormValidation {
 //Переключение активности кнопки
   _toggleButton() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._validationClasses.inactiveButtonClass);
-      this._buttonElement.setAttribute('disabled', 'true')
+      this.buttonReset()
     } else {
       this._buttonElement.classList.remove(this._validationClasses.inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled')
@@ -64,27 +63,11 @@ export class FormValidation {
     this._setEventListeners()
   };
 
-  _addDisabledButtonClass() {
-    this._buttonElement.classList.add('popup__submit-button_disabled')
+  buttonReset() {
+    this._buttonElement.classList.add(this._validationClasses.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', 'true')
   }
 
-  _buttonReset() {
-    this._buttonElement.setAttribute('disabled', 'true');
-    this._addDisabledButtonClass()
-  }
-
-}
-
-export class NewItemFormValidation extends FormValidation {
-  constructor(validationClasses, formElement) {
-    super(validationClasses, formElement);
-  }
-  enableValidation() {
-    super._setEventListeners();
-    this._formElement.addEventListener('submit', () => {
-      this._buttonReset()
-    })
-  }
 }
 
 
