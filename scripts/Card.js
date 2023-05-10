@@ -1,6 +1,6 @@
 export class Card {
-  constructor(name, link, cardSelector, openPhotoPopup) {
-    this._openPhotoPopup = openPhotoPopup;
+  constructor(name, link, cardSelector, {handleCardClick}) {
+    this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
     this._name = name;
     this._link = link;
@@ -35,7 +35,7 @@ export class Card {
       this._deleteCardElement()
     });
     this._cardPhoto.addEventListener('click', () => {
-      this._openPhotoPopup(this._name, this._link)
+      this._handleCardClick(this._name, this._link)
     })
     this._likeElement.addEventListener('click', () => {
       this._toggleLike()
