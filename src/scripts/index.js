@@ -1,3 +1,4 @@
+import '../pages/index.css';
 import {Card} from "./Card.js";
 import {FormValidator} from "./FormValidator.js";
 import {Section} from "./Section.js";
@@ -41,30 +42,37 @@ function openProfilePopup() {
 }
 
 //КАРТОЧКИ ФОТО
+import imgBrightStreet from '../images/street.png';
+import imgMountain from '../images/mountain.png';
+import imgWhiteBear from '../images/white_bear.png'
+import imgKiss from '../images/kiss.png'
+import imgCar from '../images/porsche.png'
+import imgFlowers from '../images/branch.png'
+
 const initialCards = [
   {
     name: 'Яркая улица',
-    link: './images/street.png'
+    link: imgBrightStreet
   },
   {
     name: 'Горы',
-    link: './images/mountain.png'
+    link: imgMountain
   },
   {
     name: 'Белый мишка',
-    link: './images/white_bear.png'
+    link: imgWhiteBear
   },
   {
     name: 'Поцелуй',
-    link: './images/kiss.png'
+    link: imgKiss
   },
   {
     name: 'Машина',
-    link: './images/porsche.png'
+    link: imgCar
   },
   {
     name: 'Цветочки на ветке',
-    link: './images/branch.png'
+    link: imgFlowers
   }
 ];
 
