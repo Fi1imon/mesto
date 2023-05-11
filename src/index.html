@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
 </head>
 <body>
   <div class="page">
     <header class="header">
-      <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+      <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
     </header>
     <main class="main">
       <section class="profile">
-        <img class="profile__avatar" src="./images/avatar.png" alt="Аватар дед">
+        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар дед">
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__job">Исследователь океана</p>
@@ -103,11 +102,10 @@
     <section class="popup popup-image">
       <div class="popup-image__container">
         <button class="popup__close-button image-button" type="button"></button>
-        <img class="popup-image__photo" src="./images/street.png" alt="АльтКоторыйИзменится">
+        <img class="popup-image__photo" src="<%=require('./images/street.png')%>" alt="АльтКоторыйИзменится">
         <p class="popup-image__name"></p>
       </div>
     </section>
   </div>
-  <script type="module" src="./scripts/index.js"></script>
 </body>
 </html>
