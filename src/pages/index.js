@@ -1,26 +1,29 @@
-import '../pages/index.css';
-import {Card} from "./Card.js";
-import {FormValidator} from "./FormValidator.js";
-import {Section} from "./Section.js";
-import {PopupWithImage} from "./PopupWithImage.js";
-import {PopupWithForm} from "./PopupWithForm.js";
-import {UserInfo} from "./UserInfo.js";
+import './index.css';
+import {Card} from "../scripts/Card.js";
+import {FormValidator} from "../scripts/FormValidator.js";
+import {Section} from "../scripts/Section.js";
+import {PopupWithImage} from "../scripts/PopupWithImage.js";
+import {PopupWithForm} from "../scripts/PopupWithForm.js";
+import {UserInfo} from "../scripts/UserInfo.js";
+import {initialCards} from '../scripts/constants.js';
+import {validationConfig} from "../scripts/constants.js";
+
 
 // ПОПАП ИНФОРМАЦИИ ПРОФИЛЯ
 const profilePopupElement = document.querySelector('.popup-profile');
 const editButtonElement = document.querySelector('.profile__edit-button');
 
 const userInfo = new UserInfo({
-  name: '.profile__name',
-  job: '.profile__job'
+  nameSelector: '.profile__name',
+  jobSelector: '.profile__job'
 })
 
 const profilePopup = new PopupWithForm({
   popupSelector: '.popup-profile',
   submit: (values) => {
     userInfo.setUserInfo({
-      name: values[0],
-      job: values[1]
+      name: values['name'],
+      job: values['job']
     })
   }
 })
@@ -41,43 +44,9 @@ function openProfilePopup() {
   profilePopup.open()
 }
 
-//КАРТОЧКИ ФОТО
-import imgBrightStreet from '../images/street.png';
-import imgMountain from '../images/mountain.png';
-import imgWhiteBear from '../images/white_bear.png'
-import imgKiss from '../images/kiss.png'
-import imgCar from '../images/porsche.png'
-import imgFlowers from '../images/branch.png'
-
-const initialCards = [
-  {
-    name: 'Яркая улица',
-    link: imgBrightStreet
-  },
-  {
-    name: 'Горы',
-    link: imgMountain
-  },
-  {
-    name: 'Белый мишка',
-    link: imgWhiteBear
-  },
-  {
-    name: 'Поцелуй',
-    link: imgKiss
-  },
-  {
-    name: 'Машина',
-    link: imgCar
-  },
-  {
-    name: 'Цветочки на ветке',
-    link: imgFlowers
-  }
-];
-
 //Открытие попапа фото для класса
 const popupWithImage = new PopupWithImage('.popup-image')
+popupWithImage.setEventListeners()
 
 //Функция создания карточки
 function createCard(item) {
@@ -85,17 +54,13 @@ function createCard(item) {
     item.name,
     item.link,
     '#element',
-    {handleCardClick: () => {
-        popupWithImage.open({
-          name: item.name,
-          link: item.link}),
-        popupWithImage.setEventListeners()
+    {handleCardClick: (name, link) => {
+        popupWithImage.open({name, link});
       }});
   return  card.createCard()
 };
 
 //Выгрузка карточек при загрузке страницы
-
 const elementsLoader = new Section(
   {
     renderer: (item) => {
@@ -112,10 +77,9 @@ const popupAddElement = new PopupWithForm({
   submit: (values) => {
     elementsLoader.addItem(
       createCard({
-      name: values[0],
-      link: values[1]
+      name: values['title'],
+      link: values['url']
     }));
-    newCardValidation.buttonReset()
   }
 })
 popupAddElement.setEventListeners()
@@ -124,26 +88,18 @@ const addButtonElement = document.querySelector('.profile__add-button');
 
 addButtonElement.addEventListener('click', () => {
   popupAddElement.open()
+  newCardValidation.buttonDisable()
 });
 
 //Валидация
-const validationElementsClasses = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  inputErrorClass: '.popup__input_type_error',
-  errorClass: '.popup__input-error',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_disabled'
-};
-
 const newItemElement = document.querySelector('.popup-item');
 const profileElement = document.querySelector('.popup-profile');
 
 const newCardValidation = new FormValidator({
-  validationClasses: validationElementsClasses,
+  validationClasses: validationConfig,
   formElement: newItemElement.querySelector('.popup__form')});
 const profileEditValidation = new FormValidator({
-  validationClasses: validationElementsClasses,
+  validationClasses: validationConfig,
   formElement: profileElement.querySelector('.popup__form')});
 profileEditValidation.enableValidation();
 newCardValidation.enableValidation();

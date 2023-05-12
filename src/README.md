@@ -10,6 +10,7 @@ ___
 * HTML5
 * CSS (FlexBox, GridLayout, псевдоэлементы и другие)
 * JavaScript(IIFE, ООП)
+* Webpack
 ___
 ## Сложности
 

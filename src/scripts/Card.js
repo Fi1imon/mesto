@@ -49,5 +49,7 @@ export class Card {
   _deleteCardElement() {
     this._card.remove();
     this._card = null;
+    this._cardPhoto = null;
+    this._likeElement = null;
   };
 }

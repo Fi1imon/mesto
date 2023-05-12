@@ -28,7 +28,7 @@ export class FormValidator {
 //Переключение активности кнопки
   _toggleButton() {
     if (this._hasInvalidInput()) {
-      this.buttonReset()
+      this.buttonDisable()
     } else {
       this._buttonElement.classList.remove(this._validationClasses.inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled')
@@ -63,13 +63,9 @@ export class FormValidator {
     this._setEventListeners()
   };
 
-  buttonReset() {
+  buttonDisable() {
     this._buttonElement.classList.add(this._validationClasses.inactiveButtonClass);
     this._buttonElement.setAttribute('disabled', 'true')
   }
 
 }
-
-
-
-
