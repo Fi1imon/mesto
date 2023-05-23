@@ -7,24 +7,49 @@ import {PopupWithForm} from "../scripts/PopupWithForm.js";
 import {UserInfo} from "../scripts/UserInfo.js";
 import {initialCards} from '../scripts/constants.js';
 import {validationConfig} from "../scripts/constants.js";
+import {Api} from "../scripts/Api.js";
 
 
 // ПОПАП ИНФОРМАЦИИ ПРОФИЛЯ
 const profilePopupElement = document.querySelector('.popup-profile');
 const editButtonElement = document.querySelector('.profile__edit-button');
 
-const userInfo = new UserInfo({
-  nameSelector: '.profile__name',
-  jobSelector: '.profile__job'
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-66',
+  headers: {
+    authorization: '1b376021-e410-4f6f-96c7-0ea2e231f4c4',
+    'Content-Type': 'application/json'
+  }
 })
 
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  jobSelector: '.profile__job',
+  avatarSelector: '.profile__avatar'
+})
+
+//Заполнение инормации пользователя при загрузке страницы
+api.getUserInfo()
+  .then((user) => {
+    userInfo.setUserInfo({
+      name: user.name,
+      job: user.about,
+      avatar: user.avatar
+    })
+  })
+
+//Форма обновления данных пользователя
 const profilePopup = new PopupWithForm({
   popupSelector: '.popup-profile',
   submit: (values) => {
-    userInfo.setUserInfo({
-      name: values['name'],
-      job: values['job']
-    })
+    api.setUserInfo(values)
+      .then((user) => {
+        userInfo.setUserInfo({
+          name: user.name,
+          job: user.about,
+          avatar: user.avatar
+        })
+      })
   }
 })
 profilePopup.setEventListeners()
@@ -34,7 +59,6 @@ function setProfileValues(values) {
   profilePopupElement.querySelector('.popup__input_position_top').value = values.name;
   profilePopupElement.querySelector('.popup__input_position_bottom').value = values.job;
 }
-setProfileValues(userInfo.getUserInfo())
 
 // Кнопка открытия попапа информации профиля
 editButtonElement.addEventListener('click', openProfilePopup);
@@ -61,6 +85,10 @@ function createCard(item) {
 };
 
 //Выгрузка карточек при загрузке страницы
+
+
+
+
 const elementsLoader = new Section(
   {
     renderer: (item) => {
@@ -69,7 +97,10 @@ const elementsLoader = new Section(
   },
   '.elements'
 );
-elementsLoader.renderElements(initialCards)
+api.getInitialCards()
+  .then((cards) => {
+    elementsLoader.renderElements(cards)
+  })
 
 //Попап добавления карточки
 const popupAddElement = new PopupWithForm({
