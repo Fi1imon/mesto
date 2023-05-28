@@ -27,7 +27,10 @@
             <img class="element__photo" src="someSrcThatWillBeChanged" alt="АльтКоторыйИзменится">
             <div class="element__info">
               <h3 class="element__name"></h3>
-              <button class="element__like image-button" type="button" aria-label="нравится"></button>
+              <div class="element__likes">
+                <button class="element__like-button image-button" type="button" aria-label="нравится"></button>
+                <p class="element__likes-number"></p>
+              </div>
             </div>
           </div>
         </template>
@@ -104,6 +107,16 @@
         <button class="popup__close-button image-button" type="button" aria-label="Закрыть"></button>
         <img class="popup-image__photo" src="<%=require('./images/street.png')%>" alt="АльтКоторыйИзменится">
         <p class="popup-image__name"></p>
+      </div>
+    </section>
+    <!--    Попап удаления карточки-->
+    <section class="popup popup-delete">
+      <div class="popup-delete__container">
+        <button class="popup__close-button image-button" type="button" aria-label="Закрыть"></button>
+        <div class="popup-delete__section">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <button class="popup__submit-button popup-delete__button" type="submit">Да</button>
+        </div>
       </div>
     </section>
   </div>

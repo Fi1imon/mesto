@@ -37,4 +37,49 @@ export class Api {
       .then(this.isOk)
   }
 
+  addCard(values) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: this._hraders,
+      body: JSON.stringify({
+        name: values['title'],
+        link: values['url']
+      })
+    })
+      .then(this.isOk)
+  }
+
+  deleteCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._hraders
+    })
+      .then(this.isOk)
+      .catch((err) => {
+        console.log(`Ошибка: ${err.status}`)
+      })
+  }
+
+  setLike(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: this._hraders
+    })
+      .then(this.isOk)
+      .catch((err) => {
+        console.log(`Ошибка: ${err.status}`)
+      })
+  }
+
+  removeLike(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: this._hraders
+    })
+      .then(this.isOk)
+      .catch((err) => {
+        console.log(`Ошибка: ${err.status}`)
+      })
+  }
+
 }

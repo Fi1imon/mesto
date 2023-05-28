@@ -8,6 +8,8 @@ import {UserInfo} from "../scripts/UserInfo.js";
 import {initialCards} from '../scripts/constants.js';
 import {validationConfig} from "../scripts/constants.js";
 import {Api} from "../scripts/Api.js";
+import {Popup} from "../scripts/Popup";
+import {PopupDeleteCard} from "../scripts/PopupDeleteCard";
 
 
 // ПОПАП ИНФОРМАЦИИ ПРОФИЛЯ
@@ -35,7 +37,7 @@ api.getUserInfo()
       name: user.name,
       job: user.about,
       avatar: user.avatar
-    })
+    });
   })
 
 //Форма обновления данных пользователя
@@ -72,22 +74,61 @@ function openProfilePopup() {
 const popupWithImage = new PopupWithImage('.popup-image')
 popupWithImage.setEventListeners()
 
+//Попап удаления карточки
+const popupDeleteCard = new PopupDeleteCard({
+  popupSelector: '.popup-delete'
+  })
+popupDeleteCard.setEventListeners()
+
 //Функция создания карточки
+let userId
+
+function getUserId() {
+  api.getUserInfo()
+    .then((user) => {
+      userId = user._id;
+      return userId
+    })
+}
+
 function createCard(item) {
   const card = new Card(
     item.name,
     item.link,
+    item.likes,
+    item.owner._id,
+    item._id,
     '#element',
     {handleCardClick: (name, link) => {
         popupWithImage.open({name, link});
-      }});
+      },
+    handleDeleteClick: ({card, cardId}) => {
+      popupDeleteCard.open(card, cardId)
+    },
+    deleteCard: (cardId) => {
+      api.deleteCard(cardId);
+    },
+    handleLikeClick: (thisCard, cardId) => {
+      api.getUserInfo()
+        .then((user) => {
+          if (thisCard.hasUser(user._id)) {
+            api.removeLike(cardId)
+              .then((card) => {
+                thisCard.refreshLikesNumber(card.likes)
+              })
+          } else {
+            api.setLike(cardId)
+              .then((card) => {
+                thisCard.refreshLikesNumber(card.likes)
+              })
+          }
+        })
+      }
+  });
   return  card.createCard()
 };
 
 //Выгрузка карточек при загрузке страницы
-
-
-
 
 const elementsLoader = new Section(
   {
@@ -106,11 +147,11 @@ api.getInitialCards()
 const popupAddElement = new PopupWithForm({
   popupSelector: '.popup-item',
   submit: (values) => {
-    elementsLoader.addItem(
-      createCard({
-      name: values['title'],
-      link: values['url']
-    }));
+    api.addCard(values)
+      .then((result) => {
+        elementsLoader.addItem(
+          createCard(result));
+      })
   }
 })
 popupAddElement.setEventListeners()
