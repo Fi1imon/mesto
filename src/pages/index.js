@@ -30,6 +30,8 @@ const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar'
 })
 
+//Загруз
+
 //Заполнение инормации пользователя при загрузке страницы
 let userId
 api.getUserInfo()
@@ -54,6 +56,7 @@ const profilePopup = new PopupWithForm({
           avatar: user.avatar
         })
       })
+      .finally(() => profilePopup.loadingSubmitButton(false))
   }
 })
 profilePopup.setEventListeners()
@@ -151,6 +154,7 @@ const popupAddElement = new PopupWithForm({
         elementsLoader.addItem(
           createCard(result));
       })
+      .finally(() => popupAddElement.loadingSubmitButton(false))
   }
 })
 popupAddElement.setEventListeners()
@@ -178,6 +182,7 @@ const popupNewAvatar = new PopupWithForm({
           avatar: user.avatar
         })
       })
+      .finally(() => popupNewAvatar.loadingSubmitButton(false))
   }
 })
 popupNewAvatar.setEventListeners()

@@ -2,27 +2,34 @@ export class Api {
   constructor({baseUrl, headers}) {
     this._baseUrl = baseUrl;
     this._hraders = headers;
-    this.isOk = (res) => {
-      if(res.ok) {
-        return res.json();
-      }
+  }
 
-      return  Promise.reject(`Ошибка: ${res.status}`)
+  _isOk = (res) => {
+    if(res.ok) {
+      return res.json();
     }
+
+    return  Promise.reject(`Ошибка: ${res.status}`)
+  }
+
+  _catchErr = (err) => {
+    console.log(`Запрос не дошел до сервера. Вот почему: ${err}`)
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._hraders
     })
-      .then(this.isOk)
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._hraders
     })
-      .then(this.isOk)
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   setUserInfo(values) {
@@ -34,7 +41,8 @@ export class Api {
         about: values.job
       })
     })
-      .then(this.isOk)
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   addCard(values) {
@@ -46,7 +54,8 @@ export class Api {
         link: values['url']
       })
     })
-      .then(this.isOk)
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   deleteCard(cardId) {
@@ -54,10 +63,8 @@ export class Api {
       method: 'DELETE',
       headers: this._hraders
     })
-      .then(this.isOk)
-      .catch((err) => {
-        console.log(`Ошибка: ${err.status}`)
-      })
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   setLike(cardId) {
@@ -65,10 +72,8 @@ export class Api {
       method: 'PUT',
       headers: this._hraders
     })
-      .then(this.isOk)
-      .catch((err) => {
-        console.log(`Ошибка: ${err.status}`)
-      })
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   removeLike(cardId) {
@@ -76,10 +81,8 @@ export class Api {
       method: 'DELETE',
       headers: this._hraders
     })
-      .then(this.isOk)
-      .catch((err) => {
-        console.log(`Ошибка: ${err.status}`)
-      })
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
   uploadAvatar(imageUrl) {
@@ -90,10 +93,8 @@ export class Api {
         avatar: imageUrl
       })
     })
-      .then(this.isOk)
-      .catch((err) => {
-        console.log(`Ошибка: ${err.status}`)
-      })
+      .then(this._isOk)
+      .catch(this._catchErr)
   }
 
 }
