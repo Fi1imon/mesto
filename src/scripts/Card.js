@@ -1,15 +1,17 @@
 export class Card {
-  constructor(name, link, likes, ownerId, cardId, cardSelector, {handleCardClick, handleDeleteClick,  deleteCard, handleLikeClick}) {
+  constructor(userId, {card, handleCardClick, handleDeleteClick,  deleteCard, handleLikeClick, likesVerification}) {
     this._handleCardClick = handleCardClick;
-    this._cardSelector = cardSelector;
-    this._name = name;
-    this._link = link;
-    this._likes = likes;
-    this._ownerId = ownerId;
-    this._cardId = cardId;
+    this._cardSelector = card.cardSelector;
+    this._name = card.name;
+    this._link = card.link;
+    this._likes = card.likes;
+    this._ownerId = card.ownerId;
+    this._cardId = card.cardId;
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteClick = handleDeleteClick;
     this._deleteCard = deleteCard;
+    // this._likesVerification = likesVerification;
+    this._userId = userId
   }
 
   _getTemplate() {
@@ -18,6 +20,7 @@ export class Card {
       .content
       .querySelector('.element')
       .cloneNode(true);
+
     if(this._ownerId === '204530f3027beb22877fbabb') {
       return cardElement
     } else {
@@ -30,6 +33,9 @@ export class Card {
     this._card = this._getTemplate();
     this._likesNumberElement = this._card.querySelector('.element__likes-number')
     this._setEventListeners();
+    if(this.hasUser()) {
+      this._toggleLike()
+    }
 
     this._card.querySelector('.element__name').textContent = this._name;
     this._cardPhoto.src = this._link;
@@ -58,7 +64,7 @@ export class Card {
     this._cardPhoto.addEventListener('click', () => {
       this._handleCardClick(this._name, this._link)
     })
-    this._likeElement.addEventListener('click', (evt) => {
+    this._likeElement.addEventListener('click', () => {
       this._handleLikeClick(this, this._cardId)
     });
   }
@@ -66,14 +72,13 @@ export class Card {
   refreshLikesNumber(likes) {
     this._likes = likes;
     this._likesNumberElement.textContent = likes.length;
+    this._toggleLike();
   }
 
-  hasUser(userId) {
-    if(this._likes.some((like) => {return  like._id === userId})) {
+  hasUser() {
+    if(this._likes.some((like) => { return  like._id === this._userId})) {
       return true
     }
-    this._likes.forEach((like) => {console.log(like._id)})
-    this._toggleLike()
     return false
   }
 

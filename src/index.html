@@ -12,7 +12,10 @@
     </header>
     <main class="main">
       <section class="profile">
-        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар дед">
+        <div class="profile__avatar-container">
+          <div class="profile__avatar-overlay" ></div>
+          <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар дед">
+        </div>
         <div class="profile__info">
           <h1 class="profile__name"></h1>
           <p class="profile__job"></p>
@@ -116,6 +119,26 @@
         <div class="popup-delete__section">
           <h2 class="popup__title">Вы уверены?</h2>
           <button class="popup__submit-button popup-delete__button" type="submit">Да</button>
+        </div>
+      </div>
+    </section>
+<!--    Попап обновления фото авы-->
+    <section class="popup popup-avatar">
+      <div class="popup__container">
+        <button class="popup__close-button image-button" type="button" aria-label="Закрыть"></button>
+        <div class="popup__form-container_inputs_one">
+          <h2 class="popup__title">Обновить аватар</h2>
+          <form class="popup__form" name="addPhoto" novalidate>
+            <input
+              type="url"
+              id="avatar-url-input"
+              class="popup__input popup__input_position_top"
+              name="url"
+              placeholder="https://somewebsite.com/someimage.jpg"
+              required>
+            <span class="popup__input-error avatar-url-input-error"></span>
+            <button class="popup__submit-button" type="submit">Сохранить</button>
+          </form>
         </div>
       </div>
     </section>

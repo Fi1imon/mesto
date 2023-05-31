@@ -9,6 +9,6 @@ export class Section {
   }
 
   addItem(element) {
-    this._container.prepend(element)
+    this._container.append(element)
   }
 }

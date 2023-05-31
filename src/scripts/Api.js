@@ -82,4 +82,18 @@ export class Api {
       })
   }
 
+  uploadAvatar(imageUrl) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._hraders,
+      body: JSON.stringify({
+        avatar: imageUrl
+      })
+    })
+      .then(this.isOk)
+      .catch((err) => {
+        console.log(`Ошибка: ${err.status}`)
+      })
+  }
+
 }

@@ -4,7 +4,7 @@
   max-height: 410px;
   display: grid;
   grid-template-columns:32px 8px 430px 8px 32px;
-  grid-template-rows: 32px 8px 330px 8px 32px;
+  grid-template-rows: 32px 8px 1fr 8px 32px;
 }
 
 @media screen and (max-width: 629px){

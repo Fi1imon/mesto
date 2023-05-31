@@ -31,6 +31,7 @@ const userInfo = new UserInfo({
 })
 
 //Заполнение инормации пользователя при загрузке страницы
+let userId
 api.getUserInfo()
   .then((user) => {
     userInfo.setUserInfo({
@@ -38,6 +39,7 @@ api.getUserInfo()
       job: user.about,
       avatar: user.avatar
     });
+    userId = user._id;
   })
 
 //Форма обновления данных пользователя
@@ -81,27 +83,21 @@ const popupDeleteCard = new PopupDeleteCard({
 popupDeleteCard.setEventListeners()
 
 //Функция создания карточки
-let userId
-
-function getUserId() {
-  api.getUserInfo()
-    .then((user) => {
-      userId = user._id;
-      return userId
-    })
-}
 
 function createCard(item) {
   const card = new Card(
-    item.name,
-    item.link,
-    item.likes,
-    item.owner._id,
-    item._id,
-    '#element',
-    {handleCardClick: (name, link) => {
-        popupWithImage.open({name, link});
+    userId,{
+  card: {
+      name: item.name,
+      link: item.link,
+      likes: item.likes,
+      ownerId: item.owner._id,
+      cardId: item._id,
+      cardSelector: '#element'
       },
+    handleCardClick: (name, link) => {
+      popupWithImage.open({name, link});
+    },
     handleDeleteClick: ({card, cardId}) => {
       popupDeleteCard.open(card, cardId)
     },
@@ -109,21 +105,24 @@ function createCard(item) {
       api.deleteCard(cardId);
     },
     handleLikeClick: (thisCard, cardId) => {
+      if(thisCard.hasUser()) {
+        api.removeLike(cardId)
+          .then((card) => {
+            thisCard.refreshLikesNumber(card.likes)
+          })
+      } else {
+        api.setLike(cardId)
+          .then((card) => {
+            thisCard.refreshLikesNumber(card.likes)
+          })
+      }
+    },
+    likesVerification: (thisCard) => {
       api.getUserInfo()
         .then((user) => {
-          if (thisCard.hasUser(user._id)) {
-            api.removeLike(cardId)
-              .then((card) => {
-                thisCard.refreshLikesNumber(card.likes)
-              })
-          } else {
-            api.setLike(cardId)
-              .then((card) => {
-                thisCard.refreshLikesNumber(card.likes)
-              })
-          }
+          thisCard.refreshLikesNumber(item.likes)
         })
-      }
+    }
   });
   return  card.createCard()
 };
@@ -162,10 +161,31 @@ addButtonElement.addEventListener('click', () => {
   popupAddElement.open()
   newCardValidation.buttonDisable()
 });
+// Обновление аватара
+const profileAvatarElement = document.querySelector('.profile__avatar-overlay')
+profileAvatarElement.addEventListener('click', () => {
+  popupNewAvatar.open()
+})
+
+const popupNewAvatar = new PopupWithForm({
+  popupSelector: '.popup-avatar',
+  submit: (values) => {
+    api.uploadAvatar(values.url)
+      .then((user) => {
+        userInfo.setUserInfo({
+          name: user.name,
+          job: user.about,
+          avatar: user.avatar
+        })
+      })
+  }
+})
+popupNewAvatar.setEventListeners()
 
 //Валидация
 const newItemElement = document.querySelector('.popup-item');
 const profileElement = document.querySelector('.popup-profile');
+const newAvatarElement = document.querySelector('.popup-avatar');
 
 const newCardValidation = new FormValidator({
   validationClasses: validationConfig,
@@ -173,6 +193,11 @@ const newCardValidation = new FormValidator({
 const profileEditValidation = new FormValidator({
   validationClasses: validationConfig,
   formElement: profileElement.querySelector('.popup__form')});
+const newAvatarValidation = new FormValidator({
+  validationClasses: validationConfig,
+  formElement: newAvatarElement.querySelector('.popup__form')})
+
+newAvatarValidation.enableValidation()
 profileEditValidation.enableValidation();
 newCardValidation.enableValidation();
 
