@@ -1,0 +1,9 @@
+.popup-delete__section {
+  background-color: #fff;
+  grid-column: 3/4;
+  grid-row: 3/4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+}

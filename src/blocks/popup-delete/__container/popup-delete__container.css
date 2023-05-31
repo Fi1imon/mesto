@@ -1,10 +1,10 @@
-.popup__container {
+.popup-delete__container {
   margin: auto;
   max-width: 510px;
-  max-height: 410px;
+  max-height: 261px;
   display: grid;
   grid-template-columns:32px 8px 430px 8px 32px;
-  grid-template-rows: 32px 8px 1fr 8px 32px;
+  grid-template-rows: 32px 8px 181px 8px 32px;
 }
 
 @media screen and (max-width: 629px){
