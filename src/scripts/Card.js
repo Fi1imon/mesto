@@ -1,5 +1,5 @@
 export class Card {
-  constructor(userId, {card, handleCardClick, handleDeleteClick,  deleteCard, handleLikeClick, likesVerification}) {
+  constructor(userId, {card, handleCardClick, handleDeleteClick,  deleteCard, handleLikeClick}) {
     this._handleCardClick = handleCardClick;
     this._cardSelector = card.cardSelector;
     this._name = card.name;
@@ -10,7 +10,6 @@ export class Card {
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteClick = handleDeleteClick;
     this._deleteCard = deleteCard;
-    // this._likesVerification = likesVerification;
     this._userId = userId
   }
 
@@ -87,8 +86,7 @@ export class Card {
   };
 
   deleteCardElement(cardId) {
-    this._deleteCard(cardId)
-    this._card.remove();
+    this._deleteCard(cardId);
     this._card = null;
     this._cardPhoto = null;
     this._likeElement = null;

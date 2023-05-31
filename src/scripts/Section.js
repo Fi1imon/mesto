@@ -11,4 +11,11 @@ export class Section {
   addItem(element) {
     this._container.append(element)
   }
+
+  removeElements() {
+    this._elements = this._container.querySelectorAll('.element')
+    this._elements.forEach((element) => {
+      element.remove();
+    })
+  }
 }

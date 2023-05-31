@@ -5,16 +5,10 @@ import {Section} from "../scripts/Section.js";
 import {PopupWithImage} from "../scripts/PopupWithImage.js";
 import {PopupWithForm} from "../scripts/PopupWithForm.js";
 import {UserInfo} from "../scripts/UserInfo.js";
-import {initialCards} from '../scripts/constants.js';
 import {validationConfig} from "../scripts/constants.js";
 import {Api} from "../scripts/Api.js";
-import {Popup} from "../scripts/Popup";
-import {PopupDeleteCard} from "../scripts/PopupDeleteCard";
+import {PopupWithConfirmation} from "../scripts/PopupWithConfirmation";
 
-
-// ПОПАП ИНФОРМАЦИИ ПРОФИЛЯ
-const profilePopupElement = document.querySelector('.popup-profile');
-const editButtonElement = document.querySelector('.profile__edit-button');
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/cohort-66',
@@ -24,15 +18,13 @@ const api = new Api({
   }
 })
 
+//Заполнение инормации пользователя при загрузке страницы
 const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   jobSelector: '.profile__job',
   avatarSelector: '.profile__avatar'
 })
 
-//Загруз
-
-//Заполнение инормации пользователя при загрузке страницы
 let userId
 api.getUserInfo()
   .then((user) => {
@@ -62,31 +54,37 @@ const profilePopup = new PopupWithForm({
 profilePopup.setEventListeners()
 
 //Заполнение полей попапа профиля
+const profilePopupElement = document.querySelector('.popup-profile');
+
 function setProfileValues(values) {
   profilePopupElement.querySelector('.popup__input_position_top').value = values.name;
   profilePopupElement.querySelector('.popup__input_position_bottom').value = values.job;
 }
 
 // Кнопка открытия попапа информации профиля
-editButtonElement.addEventListener('click', openProfilePopup);
+const editButtonElement = document.querySelector('.profile__edit-button');
+
 function openProfilePopup() {
   setProfileValues(userInfo.getUserInfo())
 
   profilePopup.open()
 }
+editButtonElement.addEventListener('click', () => {
+  openProfilePopup();
+  profileEditValidation.buttonDisable()
+});
 
-//Открытие попапа фото для класса
+//Попап увеличения фото
 const popupWithImage = new PopupWithImage('.popup-image')
 popupWithImage.setEventListeners()
 
 //Попап удаления карточки
-const popupDeleteCard = new PopupDeleteCard({
+const popupDeleteCard = new PopupWithConfirmation({
   popupSelector: '.popup-delete'
   })
 popupDeleteCard.setEventListeners()
 
 //Функция создания карточки
-
 function createCard(item) {
   const card = new Card(
     userId,{
@@ -105,7 +103,8 @@ function createCard(item) {
       popupDeleteCard.open(card, cardId)
     },
     deleteCard: (cardId) => {
-      api.deleteCard(cardId);
+      api.deleteCard(cardId)
+        .then(() => uploadCardsFromServer())
     },
     handleLikeClick: (thisCard, cardId) => {
       if(thisCard.hasUser()) {
@@ -119,19 +118,12 @@ function createCard(item) {
             thisCard.refreshLikesNumber(card.likes)
           })
       }
-    },
-    likesVerification: (thisCard) => {
-      api.getUserInfo()
-        .then((user) => {
-          thisCard.refreshLikesNumber(item.likes)
-        })
     }
   });
   return  card.createCard()
-};
+}
 
 //Выгрузка карточек при загрузке страницы
-
 const elementsLoader = new Section(
   {
     renderer: (item) => {
@@ -140,25 +132,28 @@ const elementsLoader = new Section(
   },
   '.elements'
 );
-api.getInitialCards()
-  .then((cards) => {
-    elementsLoader.renderElements(cards)
-  })
+
+function uploadCardsFromServer() {
+  elementsLoader.removeElements()
+  api.getInitialCards()
+    .then((cards) => {
+      elementsLoader.renderElements(cards)
+    })
+}
+uploadCardsFromServer()
 
 //Попап добавления карточки
 const popupAddElement = new PopupWithForm({
   popupSelector: '.popup-item',
   submit: (values) => {
     api.addCard(values)
-      .then((result) => {
-        elementsLoader.addItem(
-          createCard(result));
-      })
+      .then(() => uploadCardsFromServer())
       .finally(() => popupAddElement.loadingSubmitButton(false))
   }
 })
 popupAddElement.setEventListeners()
 
+//
 const addButtonElement = document.querySelector('.profile__add-button');
 
 addButtonElement.addEventListener('click', () => {
