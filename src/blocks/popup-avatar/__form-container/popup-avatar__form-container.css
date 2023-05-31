@@ -1,4 +1,4 @@
-.popup__form-container_inputs_one {
+.popup-avatar__form-container {
   max-width: 430px;
   max-height: 272px;
   margin: 0;
@@ -13,9 +13,8 @@
 }
 
 @media screen and (max-width: 629px){
-  .popup__form-container_inputs_one {
+  .popup-avatar__form-container {
     min-width: 282px;
-    /*min-height: 322px;*/
     grid-column: 1/3;
     grid-row: 3/4;
   }
