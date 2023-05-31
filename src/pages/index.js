@@ -153,16 +153,18 @@ const popupAddElement = new PopupWithForm({
 })
 popupAddElement.setEventListeners()
 
-//
+//Слушатель кнопки открытия попапа добавления карточки
 const addButtonElement = document.querySelector('.profile__add-button');
 
 addButtonElement.addEventListener('click', () => {
   popupAddElement.open()
   newCardValidation.buttonDisable()
 });
+
 // Обновление аватара
 const profileAvatarElement = document.querySelector('.profile__avatar-overlay')
 profileAvatarElement.addEventListener('click', () => {
+  newAvatarValidation.buttonDisable()
   popupNewAvatar.open()
 })
 
