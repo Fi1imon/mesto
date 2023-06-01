@@ -14,7 +14,7 @@
       <section class="profile">
         <div class="profile__avatar-container">
           <div class="profile__avatar-overlay" ></div>
-          <img class="profile__avatar" src="someSrcThatWillBeChanged" alt="Аватар">
+          <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар">
         </div>
         <div class="profile__info">
           <h1 class="profile__name"></h1>
@@ -131,7 +131,7 @@
         <button class="popup__close-button image-button" type="button" aria-label="Закрыть"></button>
         <div class="popup-avatar__form-container">
           <h2 class="popup__title">Обновить аватар</h2>
-          <form class="popup__form" name="addPhoto" novalidate>
+          <form class="popup__form" name="newAvatar" novalidate>
             <input
               type="url"
               id="avatar-url-input"

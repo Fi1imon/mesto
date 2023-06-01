@@ -18,7 +18,7 @@ export class PopupWithForm extends Popup {
     return inputValues
   }
 
-  loadingSubmitButton(isLoading) {
+  toggleLoadingSubmitButton(isLoading) {
     if(isLoading) {
       this._submitButton.classList.add('popup__submit-button_hidden');
       this._loadingButton.classList.add('popup__loading-button_visible');
@@ -32,9 +32,8 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault()
-      this.loadingSubmitButton(true)
+      this.toggleLoadingSubmitButton(true)
       this._submit(this._getInputValues())
-      this.close()
     })
   }
 

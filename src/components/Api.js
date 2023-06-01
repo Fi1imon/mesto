@@ -12,28 +12,24 @@ export class Api {
     return  Promise.reject(`Ошибка: ${res.status}`)
   }
 
-  _catchErr = (err) => {
-    console.log(`Запрос не дошел до сервера. Вот почему: ${err}`)
+  _request(url, options) {
+    return fetch(`${this._baseUrl}/${url}`, options).then(this._isOk)
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return  this._request('users/me', {
       headers: this._hraders
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
+    return  this._request('cards', {
       headers: this._hraders
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   setUserInfo(values) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return  this._request('users/me', {
       method: 'PATCH',
       headers: this._hraders,
       body: JSON.stringify({
@@ -41,12 +37,10 @@ export class Api {
         about: values.job
       })
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   addCard(values) {
-    return fetch(`${this._baseUrl}/cards`, {
+    return  this._request('cards', {
       method: 'POST',
       headers: this._hraders,
       body: JSON.stringify({
@@ -54,47 +48,37 @@ export class Api {
         link: values['url']
       })
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    return  this._request(`cards/${cardId}`, {
       method: 'DELETE',
       headers: this._hraders
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   setLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return  this._request(`cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._hraders
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   removeLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return  this._request(`cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._hraders
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
   uploadAvatar(imageUrl) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return  this._request('users/me/avatar', {
       method: 'PATCH',
       headers: this._hraders,
       body: JSON.stringify({
         avatar: imageUrl
       })
     })
-      .then(this._isOk)
-      .catch(this._catchErr)
   }
 
 }
