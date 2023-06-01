@@ -19,8 +19,4 @@ export class PopupWithConfirmation extends Popup {
     super.close();
     this._submitButton.removeEventListener('click', this._deleteFnc)
   }
-
-  setEventListeners() {
-    super.setEventListeners();
-  }
 }

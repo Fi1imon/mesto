@@ -20,7 +20,7 @@ export class Card {
       .querySelector('.element')
       .cloneNode(true);
 
-    if(this._ownerId === '204530f3027beb22877fbabb') {
+    if(this._ownerId === this._userId) {
       return cardElement
     } else {
       cardElement.querySelector('.element__delete').remove()

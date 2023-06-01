@@ -1,13 +1,23 @@
 import './index.css';
-import {Card} from "../scripts/Card.js";
-import {FormValidator} from "../scripts/FormValidator.js";
-import {Section} from "../scripts/Section.js";
-import {PopupWithImage} from "../scripts/PopupWithImage.js";
-import {PopupWithForm} from "../scripts/PopupWithForm.js";
-import {UserInfo} from "../scripts/UserInfo.js";
-import {validationConfig} from "../scripts/constants.js";
-import {Api} from "../scripts/Api.js";
-import {PopupWithConfirmation} from "../scripts/PopupWithConfirmation";
+import {Card} from "../components/Card.js";
+import {FormValidator} from "../components/FormValidator.js";
+import {Section} from "../components/Section.js";
+import {PopupWithImage} from "../components/PopupWithImage.js";
+import {PopupWithForm} from "../components/PopupWithForm.js";
+import {UserInfo} from "../components/UserInfo.js";
+import {validationConfig} from "../utils/constants.js";
+import {Api} from "../components/Api.js";
+import {PopupWithConfirmation} from "../components/PopupWithConfirmation";
+
+//profile popup constants
+const profilePopupElement = document.querySelector('.popup-profile');
+const editButtonElement = document.querySelector('.profile__edit-button');
+const profileTopInput = profilePopupElement.querySelector('.popup__input_position_top');
+const profileBottomInput = profilePopupElement.querySelector('.popup__input_position_bottom');
+//add item and avatar constants
+const addButtonElement = document.querySelector('.profile__add-button');
+const profileAvatarElement = document.querySelector('.profile__avatar-overlay');
+const formValidators = {}
 
 
 const api = new Api({
@@ -25,53 +35,78 @@ const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar'
 })
 
+//Выгрузка карточек при загрузке страницы
+const elementsLoader = new Section(
+  {
+    renderer: (item) => {
+      elementsLoader.addItem(createCard(item))
+    }
+  },
+  '.elements'
+);
+
+//
+function handleSubmit(request, popup) {
+
+  popup.toggleLoadingSubmitButton(true)
+  request()
+    .then(() => popup.close())
+    .catch((err) => {
+      console.log(`'catch' поймал ошибку: ${err}`)
+    })
+    .finally(() => profilePopup.toggleLoadingSubmitButton(false))
+}
+
+//Общий запрос для карточек и пользователя
+
 let userId
-api.getUserInfo()
-  .then((user) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([user, cards]) => {
     userInfo.setUserInfo({
       name: user.name,
       job: user.about,
       avatar: user.avatar
     });
     userId = user._id;
+    elementsLoader.renderElements(cards.toReversed());
+  })
+  .catch((err) => {
+    console.log(`'catch' поймал ошибку: ${err}`)
   })
 
 //Форма обновления данных пользователя
 const profilePopup = new PopupWithForm({
   popupSelector: '.popup-profile',
   submit: (values) => {
-    api.setUserInfo(values)
-      .then((user) => {
-        userInfo.setUserInfo({
-          name: user.name,
-          job: user.about,
-          avatar: user.avatar
+    function submitProfile() {
+      return api.setUserInfo(values)
+        .then((user) => {
+          userInfo.setUserInfo({
+            name: user.name,
+            job: user.about,
+            avatar: user.avatar
+          })
         })
-      })
-      .finally(() => profilePopup.loadingSubmitButton(false))
+    }
+    handleSubmit(submitProfile, profilePopup)
   }
 })
 profilePopup.setEventListeners()
 
 //Заполнение полей попапа профиля
-const profilePopupElement = document.querySelector('.popup-profile');
-
 function setProfileValues(values) {
-  profilePopupElement.querySelector('.popup__input_position_top').value = values.name;
-  profilePopupElement.querySelector('.popup__input_position_bottom').value = values.job;
+  profileTopInput.value = values.name;
+  profileBottomInput.value = values.job;
 }
 
 // Кнопка открытия попапа информации профиля
-const editButtonElement = document.querySelector('.profile__edit-button');
-
 function openProfilePopup() {
   setProfileValues(userInfo.getUserInfo())
-
+  formValidators['profileEdit'].resetValidation()
   profilePopup.open()
 }
 editButtonElement.addEventListener('click', () => {
   openProfilePopup();
-  profileEditValidation.buttonDisable()
 });
 
 //Попап увеличения фото
@@ -104,7 +139,12 @@ function createCard(item) {
     },
     deleteCard: (cardId) => {
       api.deleteCard(cardId)
-        .then(() => uploadCardsFromServer())
+        .then(() => {
+
+        })
+        .catch((err) => {
+          console.log(`'catch' поймал ошибку: ${err}`)
+        })
     },
     handleLikeClick: (thisCard, cardId) => {
       if(thisCard.hasUser()) {
@@ -112,10 +152,16 @@ function createCard(item) {
           .then((card) => {
             thisCard.refreshLikesNumber(card.likes)
           })
+          .catch((err) => {
+            console.log(`'catch' поймал ошибку: ${err}`)
+          })
       } else {
         api.setLike(cardId)
           .then((card) => {
             thisCard.refreshLikesNumber(card.likes)
+          })
+          .catch((err) => {
+            console.log(`'catch' поймал ошибку: ${err}`)
           })
       }
     }
@@ -123,85 +169,82 @@ function createCard(item) {
   return  card.createCard()
 }
 
-//Выгрузка карточек при загрузке страницы
-const elementsLoader = new Section(
-  {
-    renderer: (item) => {
-      elementsLoader.addItem(createCard(item))
-    }
-  },
-  '.elements'
-);
-
-function uploadCardsFromServer() {
-  elementsLoader.removeElements()
-  api.getInitialCards()
-    .then((cards) => {
-      elementsLoader.renderElements(cards)
-    })
-}
-uploadCardsFromServer()
-
 //Попап добавления карточки
 const popupAddElement = new PopupWithForm({
   popupSelector: '.popup-item',
   submit: (values) => {
-    api.addCard(values)
-      .then(() => uploadCardsFromServer())
-      .finally(() => popupAddElement.loadingSubmitButton(false))
+    function submitAddElement() {
+      return api.addCard(values)
+        .then((card) => {
+          elementsLoader.addItem(createCard(card))
+        })
+    }
+    handleSubmit(submitAddElement, popupAddElement)
   }
 })
 popupAddElement.setEventListeners()
 
 //Слушатель кнопки открытия попапа добавления карточки
-const addButtonElement = document.querySelector('.profile__add-button');
-
 addButtonElement.addEventListener('click', () => {
+  formValidators['addPhoto'].resetValidation()
   popupAddElement.open()
-  newCardValidation.buttonDisable()
 });
 
 // Обновление аватара
-const profileAvatarElement = document.querySelector('.profile__avatar-overlay')
 profileAvatarElement.addEventListener('click', () => {
-  newAvatarValidation.buttonDisable()
+  formValidators['newAvatar'].resetValidation()
   popupNewAvatar.open()
 })
 
 const popupNewAvatar = new PopupWithForm({
   popupSelector: '.popup-avatar',
   submit: (values) => {
-    api.uploadAvatar(values.url)
-      .then((user) => {
-        userInfo.setUserInfo({
-          name: user.name,
-          job: user.about,
-          avatar: user.avatar
+
+    function submitNewAvatar() {
+      return api.uploadAvatar(values.url)
+        .then((user) => {
+          userInfo.setUserInfo({
+            name: user.name,
+            job: user.about,
+            avatar: user.avatar
+          })
         })
-      })
-      .finally(() => popupNewAvatar.loadingSubmitButton(false))
+    }
+    handleSubmit(submitNewAvatar, popupNewAvatar)
   }
-})
-popupNewAvatar.setEventListeners()
+});
+popupNewAvatar.setEventListeners();
 
 //Валидация
-const newItemElement = document.querySelector('.popup-item');
-const profileElement = document.querySelector('.popup-profile');
-const newAvatarElement = document.querySelector('.popup-avatar');
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator({
+      validationClasses: config,
+      formElement: formElement
+    })
+    const formName = formElement.getAttribute('name')
 
-const newCardValidation = new FormValidator({
-  validationClasses: validationConfig,
-  formElement: newItemElement.querySelector('.popup__form')});
-const profileEditValidation = new FormValidator({
-  validationClasses: validationConfig,
-  formElement: profileElement.querySelector('.popup__form')});
-const newAvatarValidation = new FormValidator({
-  validationClasses: validationConfig,
-  formElement: newAvatarElement.querySelector('.popup__form')})
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
 
-newAvatarValidation.enableValidation()
-profileEditValidation.enableValidation();
-newCardValidation.enableValidation();
+enableValidation(validationConfig)
+
+// const newCardValidation = new FormValidator({
+//   validationClasses: validationConfig,
+//   formElement: document.forms['addPhoto']});
+// const profileEditValidation = new FormValidator({
+//   validationClasses: validationConfig,
+//   formElement: document.forms['profileEdit']});
+// const newAvatarValidation = new FormValidator({
+//   validationClasses: validationConfig,
+//   formElement: document.forms['newAvatar']});
+//
+// newAvatarValidation.enableValidation();
+// profileEditValidation.enableValidation();
+// newCardValidation.enableValidation();
 
 
 
