@@ -138,10 +138,8 @@ function createCard(item) {
       popupDeleteCard.open(card, cardId)
     },
     deleteCard: (cardId) => {
-      api.deleteCard(cardId)
-        .then(() => {
-
-        })
+      api.deleteCard(cardId, card)
+        .then(() => {card.deleteCardElement()})
         .catch((err) => {
           console.log(`'catch' поймал ошибку: ${err}`)
         })

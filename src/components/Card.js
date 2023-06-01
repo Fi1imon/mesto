@@ -85,10 +85,14 @@ export class Card {
     this._likeElement.classList.toggle('element__like-button_active')
   };
 
-  deleteCardElement(cardId) {
-    this._deleteCard(cardId);
+  deleteCardElement() {
+    this._card.remove();
     this._card = null;
-    this._cardPhoto = null;
     this._likeElement = null;
+    this._cardPhoto = null
+  }
+
+  deleteCardResponse(cardId) {
+    return  this._deleteCard(cardId, this)
   };
 }
