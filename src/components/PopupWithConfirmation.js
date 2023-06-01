@@ -9,7 +9,7 @@ export class PopupWithConfirmation extends Popup {
   open(card, cardId) {
     super.open();
     this._deleteFnc = () => {
-      card.deleteCardElement(cardId);
+      card.deleteCardResponse(cardId);
       this.close()
     }
     this._submitButton.addEventListener('click', this._deleteFnc)
