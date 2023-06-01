@@ -54,7 +54,7 @@ function handleSubmit(request, popup) {
     .catch((err) => {
       console.log(`'catch' поймал ошибку: ${err}`)
     })
-    .finally(() => profilePopup.toggleLoadingSubmitButton(false))
+    .finally(() => popup.toggleLoadingSubmitButton(false))
 }
 
 //Общий запрос для карточек и пользователя
@@ -139,7 +139,10 @@ function createCard(item) {
     },
     deleteCard: (cardId) => {
       api.deleteCard(cardId, card)
-        .then(() => {card.deleteCardElement()})
+        .then(() => {
+          card.deleteCardElement();
+          popupDeleteCard.close();
+        })
         .catch((err) => {
           console.log(`'catch' поймал ошибку: ${err}`)
         })
